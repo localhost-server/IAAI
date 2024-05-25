@@ -1,0 +1,8 @@
+pymongo
+playwright
+asyncio
+motor
+boto3
+aiohttp
+python-dotenv
+pytz
