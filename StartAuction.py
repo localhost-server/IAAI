@@ -92,6 +92,7 @@ async def scrape_auction_data(auction_link, collection, link_collection):
                         identity = await internal_link.get_attribute('href')
 
                     try:
+                        price=None
                         await auc.wait_for_selector('div.js-BidActions')
                         content = await auc.query_selector('div.js-BidActions')
                         high_bid_element = await content.query_selector("span.high-bid__amount")
