@@ -110,10 +110,6 @@ async def scrape_auction_data(auction_link, collection, link_collection):
 
                     data[str(identity)] = price
 
-    # Close browser and page
-    await page.close()
-    await browser.close()
-
 # Parse command line arguments
 parser = argparse.ArgumentParser(description='Scrape auction data.')
 parser.add_argument('CarLink', type=str, help='The auction link to scrape.')
