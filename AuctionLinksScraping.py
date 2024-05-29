@@ -3,12 +3,6 @@ import pymongo
 from undetected_playwright.async_api import async_playwright
 import asyncio
 
-from chrome_fingerprints import FingerprintGenerator, ChromeFingerprint
-
-fp_gen = FingerprintGenerator()
-
-fingerprint: ChromeFingerprint = fp_gen.get_fingerprint()
-
 async def open_browser(page):
     # await page.set_viewport_size({'width': 1920, 'height': 1080})
     # await page.set_viewport_size({'width': 1600, 'height': 1080})
