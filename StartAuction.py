@@ -14,6 +14,7 @@ async def open_browser(page, weblink):
     return page
 
 async def scrape_auction_data(auction_link, collection, link_collection):
+    check_count=0
     playwright = await async_playwright().start()
     args = ["--disable-blink-features=AutomationControlled"]
     browser = await playwright.chromium.launch(args=args, headless=False)
@@ -55,6 +56,11 @@ async def scrape_auction_data(auction_link, collection, link_collection):
         auctioning_completed = await page.query_selector_all("div.event-empty__content")
 
         if len(auctioning_completed) == len(multiple_auc_in_single_page) and len(multiple_auc_in_single_page) > 0:
+            while check_count < 5:
+                await asyncio.sleep(30)
+                check_count += 1
+                pass
+            
             print(f'Auction Closed {auction_link}')
             await page.close()
             await browser.close()
