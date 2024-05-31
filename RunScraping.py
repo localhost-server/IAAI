@@ -46,6 +46,9 @@ while True:
         # if not process:
         process = subprocess.Popen(["python3", "ProductScraping.py"])
         process.wait()
+        process.terminate()  # Terminate the process
+        process.communicate()  # Cleanup the process
+
         del process
 
     time.sleep(3600)  # Sleep for an hour before checking again
