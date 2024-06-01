@@ -5,6 +5,7 @@ import asyncio
 import pymongo
 from dotenv import load_dotenv
 import os
+from datetime import datetime
 
 load_dotenv()
 
@@ -14,7 +15,7 @@ async def open_browser(page, weblink):
     return page
 
 async def scrape_auction_data(auction_link, collection, link_collection):
-    check_count=0
+    start_time = datetime.now()
     playwright = await async_playwright().start()
     args = ["--disable-blink-features=AutomationControlled"]
     browser = await playwright.chromium.launch(args=args, headless=False)
@@ -51,14 +52,15 @@ async def scrape_auction_data(auction_link, collection, link_collection):
 
     data = {}
     while True:
+        end_time = datetime.now()
         await page.wait_for_selector('div.AuctionContainer.event__item')
         multiple_auc_in_single_page = await page.query_selector_all('div.AuctionContainer.event__item')
-        auctioning_completed = await page.query_selector_all("div.event-empty__content")
-
-        if len(auctioning_completed) == len(multiple_auc_in_single_page) and len(multiple_auc_in_single_page) > 0:
-            while check_count < 5:
+        # auctioning_completed = await page.query_selector_all("div.event-empty__content")
+        auctioning_completed = await page.query_selector_all('h2.event-empty__title[data-translate="AuctionCompleted"]')
+        
+        if (len(auctioning_completed)>0) and (len(auctioning_completed) == len(multiple_auc_in_single_page)):
+            while (end_time - start_time).total_seconds()/60 < 30:
                 await asyncio.sleep(30)
-                check_count += 1
                 pass
             
             print(f'Auction Closed {auction_link}')
