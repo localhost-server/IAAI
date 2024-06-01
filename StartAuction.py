@@ -59,7 +59,7 @@ async def scrape_auction_data(auction_link, collection, link_collection):
         auctioning_completed = await page.query_selector_all('h2.event-empty__title[data-translate="AuctionCompleted"]')
         
         if (len(auctioning_completed)>0) and (len(auctioning_completed) == len(multiple_auc_in_single_page)):
-            while (end_time - start_time).total_seconds()/60 < 30:
+            while (end_time - start_time).total_seconds()/60 < 15:
                 await asyncio.sleep(30)
                 pass
             
