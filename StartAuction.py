@@ -57,8 +57,8 @@ async def scrape_auction_data(auction_link, collection, link_collection):
         multiple_auc_in_single_page = await page.query_selector_all('div.AuctionContainer.event__item')
         # auctioning_completed = await page.query_selector_all("div.event-empty__content")
         auctioning_completed = await page.query_selector_all('h2.event-empty__title[data-translate="AuctionCompleted"]')
-        print(f'Number of auctions in the page: {len(multiple_auc_in_single_page)}')
-        print(f'Number of auctions completed: {len(auctioning_completed)}')
+        # print(f'Number of auctions in the page: {len(multiple_auc_in_single_page)}')
+        # print(f'Number of auctions completed: {len(auctioning_completed)}')
         if (len(auctioning_completed)>0) and (len(auctioning_completed) == len(multiple_auc_in_single_page)) and ((end_time - start_time).total_seconds()/60 > 30):
 
             print(f'Auction Closed {auction_link}')
