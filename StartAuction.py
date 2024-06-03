@@ -6,8 +6,12 @@ import pymongo
 from dotenv import load_dotenv
 import os
 from datetime import datetime
+import pytz
 
 load_dotenv()
+# Setting CDT timezone
+cdt=pytz.timezone('America/Chicago')
+
 
 async def open_browser(page, weblink):
     await page.emulate_media(color_scheme='dark')
@@ -67,7 +71,7 @@ async def scrape_auction_data(auction_link, collection, link_collection):
 
             if not data:
                 return
-                
+
             data_list = [{"carLink": k, "price": v , "date": datetime.now(cdt).date().strftime("%d-%m-%Y").replace('-','.')} for k, v in data.items() if k != 'None' and v != ""]
             carLink_list = [i['carLink'] for i in data_list]
 
