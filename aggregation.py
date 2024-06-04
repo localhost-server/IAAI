@@ -27,7 +27,7 @@ pipeline = [
         "$project": {
             "_id": 0,
             "carLink": 1,
-            "price": 1,
+            "prices": 1,
             "Info": "$Integrated.Info"
         }
     },
