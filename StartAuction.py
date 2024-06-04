@@ -3,6 +3,7 @@ from undetected_playwright.async_api import async_playwright
 import subprocess 
 import asyncio
 import pymongo
+from pymongo import UpdateOne
 from dotenv import load_dotenv
 import os
 from datetime import datetime
@@ -78,7 +79,23 @@ async def scrape_auction_data(auction_link, collection, link_collection):
             subprocess.Popen(["python3", "check_link.py", ' '.join(carLink_list)])
             print(f"Data captured of {len(data_list)} cars")
             print(data_list)
-            collection.insert_many(data_list)
+
+            # Prepare bulk write operations
+            operations = []
+            for data in data_list:
+                price_obj = {"date": data["date"], "price": data["price"]}
+                operations.append(
+                    UpdateOne(
+                        {"carLink": data["carLink"]},
+                        {"$push": {"prices": price_obj}, "$setOnInsert": {"carLink": data["carLink"]}},
+                        upsert=True
+                    )
+                )
+
+            # Execute bulk write operations
+            collection.bulk_write(operations)
+            # collection.insert_many(data_list)
+            
             
             link_collection.update_one({'link': auction_link}, {'$set': {'Info': 'done'}})
 
