@@ -15,7 +15,7 @@ def process_link(link):
         
     if collection.find_one({"carLink": carLink}):
         # print(f"Car {carLink} already in the database")
-        # pass
+        pass
     else:
         collection.insert_one({"carLink": carLink, "Info": "None"})
         # print(f"Car {carLink} added to the database with NONE")
