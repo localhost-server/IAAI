@@ -25,7 +25,7 @@ def get_system_memory_usage():
 # Iterate over the documents in the MongoDB collection where 'Info' is sNone
 async def open_auctions():
     # while datetime.now(cdt).strftime("%H:%M") >= "08:05" and datetime.now(cdt).strftime("%H:%M") <= "15:00":
-        while datetime.now(cdt).strftime("%H:%M") <= "15:00":
+    while datetime.now(cdt).strftime("%H:%M") <= "15:00":
         document = collection.find_one({'Info': "None"},sort=[("creation_time", ASCENDING)])
         if document is not None:
             # Check system memory usage
