@@ -14,11 +14,11 @@ def process_link(link):
         carLink = "https://www.iaai.com" + link
         
     if collection.find_one({"carLink": carLink}):
-        print(f"Car {carLink} already in the database")
+        # print(f"Car {carLink} already in the database")
         # pass
     else:
         collection.insert_one({"carLink": carLink, "Info": "None"})
-        print(f"Car {carLink} added to the database with NONE")
+        # print(f"Car {carLink} added to the database with NONE")
 
 # Create a new client
 client = pymongo.MongoClient(os.getenv("MONGOAUTH"))
