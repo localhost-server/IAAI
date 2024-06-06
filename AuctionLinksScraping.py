@@ -99,7 +99,7 @@ async def fetch_live_auctions(browser , page, collection):
             except Exception as e:
                 print(e)
                 pass
-        await asyncio.sleep(3600)
+        await asyncio.sleep(2700)
 
 async def main():
     async with async_playwright() as playwright:
