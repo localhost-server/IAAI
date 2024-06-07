@@ -123,6 +123,7 @@ async def scrape_auction_data(auction_link, collection, link_collection):
                             bid_now_element = await content.query_selector("span.bid-now__amount")
                             if bid_now_element is not None:
                                 price = await bid_now_element.inner_text()
+                                del bid_now_element
                             else:
                                 price = ""
                     except:
@@ -131,7 +132,7 @@ async def scrape_auction_data(auction_link, collection, link_collection):
                         continue
 
                     data[str(identity)] = price
-                    del content , internal_link , identity , price , high_bid_element , bid_now_element , auc
+                    del content , internal_link , identity , price , high_bid_element , auc
 
 # Parse command line arguments
 parser = argparse.ArgumentParser(description='Scrape auction data.')
