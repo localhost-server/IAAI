@@ -131,6 +131,7 @@ async def scrape_auction_data(auction_link, collection, link_collection):
                         continue
 
                     data[str(identity)] = price
+                    del content , internal_link , identity , price , high_bid_element , bid_now_element , auc
 
 # Parse command line arguments
 parser = argparse.ArgumentParser(description='Scrape auction data.')
