@@ -70,7 +70,9 @@ async def main():
         # doc = collection.find_one_and_update({"Info": "processing"}, {"$set": {"Info": None}}, sort=[("creation_time", ASCENDING)])
 
         if not doc:
-            break
+            doc = collection.find_one_and_update({"Info": "processing"}, {"$set": {"Info": "processing"}}, sort=[("creation_time", ASCENDING)])
+            if not doc:
+                break
 
         carLink = doc['carLink']
         link = carLink.replace("https://www.iaai.com", "")
