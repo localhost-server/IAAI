@@ -126,6 +126,11 @@ async def main():
             if "******" in value:
                 logged_out=True
                 break
+            elif " (OK)" in value:
+                value.replace(" (OK)","")
+            elif " (Unknown)" in value:
+                value.replace(" (Unknown)","")
+            
             
             while '\n' in value or '\t' in value or '  ' in value:
                 value=value.replace('\n','').replace('\t','').replace('  ','')
@@ -148,6 +153,11 @@ async def main():
                 if "******" in value:
                     logged_out=True
                     break
+                elif " (OK)" in value:
+                    value.replace(" (OK)","")
+                elif " (Unknown)" in value:
+                    value.replace(" (Unknown)","")
+                    
             vehicle_description[label]=value
                 
         if logged_out:
