@@ -131,9 +131,24 @@ async def scrape_auction_data(auction_link, collection, link_collection):
                             price = ""
                         continue
 
-                    data[str(identity)] = price
-                    print({identity:price},end=' , ')
-                    del content , internal_link , identity , price , high_bid_element , auc
+                    # Convert price to a number, assuming it's a string like "$1000"
+                    new_price = float(price.replace("$", "")) if price else 0
+
+                    # Check if the identity link is in data
+                    if str(identity) in data:
+                        # Get the existing price and convert it to a number
+                        existing_price = float(data[str(identity)].replace("$", "")) if data[str(identity)] else 0
+                    
+                        # Update the price only if the new price is greater than the existing one
+                        if new_price > existing_price:
+                            data[str(identity)] = price
+                            print({identity: price}, end=' , ')
+                    else:
+                        # If the identity link is not in data, add it
+                        data[str(identity)] = price
+                        print({identity: price}, end=' , ')
+                    
+                    del content, internal_link, identity, price, high_bid_element, auc
 
 # Parse command line arguments
 parser = argparse.ArgumentParser(description='Scrape auction data.')
