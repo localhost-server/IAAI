@@ -132,7 +132,7 @@ async def scrape_auction_data(auction_link, collection, link_collection):
                         continue
 
                     # Convert price to a number, assuming it's a string like "$1000"
-                    new_price = float(price.replace("$", "").replace(",","") if price else 0
+                    new_price = float(price.replace("$", "").replace(",","")) if price else 0
 
                     # Check if the identity link is in data
                     if str(identity) in data:
