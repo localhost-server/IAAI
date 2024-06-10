@@ -132,7 +132,7 @@ async def scrape_auction_data(auction_link, collection, link_collection):
                         continue
 
                     data[str(identity)] = price
-                    print(data)
+                    print({identity:price},end=' , ')
                     del content , internal_link , identity , price , high_bid_element , auc
 
 # Parse command line arguments
