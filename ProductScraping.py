@@ -126,14 +126,10 @@ async def main():
             if "******" in value:
                 logged_out=True
                 break
-            elif " (OK)" in value:
-                value.replace(" (OK)","")
-            elif " (Unknown)" in value:
-                value.replace(" (Unknown)","")
             
             
-            while '\n' in value or '\t' in value or '  ' in value:
-                value=value.replace('\n','').replace('\t','').replace('  ','')
+            while '\n' in value or '\t' in value or '  ' in value or " (OK)" in value or " (Unknown)" in value:
+                value=value.replace('\n','').replace('\t','').replace('  ','').replace(" (OK)","").replace(" (Unknown)","")
             vehicle_info[label]=value
             
         MainInfo['Vehicle Info']=vehicle_info
@@ -148,15 +144,11 @@ async def main():
             if '\nMore Info' in label:
                 label=label.replace(':\nMore Info',':')
             value=await (await i.query_selector('span.data-list__value')).inner_text()
-            while '\n' in value or '\t' in value or '  ' in value:
-                value=value.replace('\n','').replace('\t','').replace('  ','')
+            while '\n' in value or '\t' in value or '  ' in value or " (OK)" in value or " (Unknown)" in value :
+                value=value.replace('\n','').replace('\t','').replace('  ','').replace(" (OK)","").replace(" (Unknown)","")
                 if "******" in value:
                     logged_out=True
                     break
-                elif " (OK)" in value:
-                    value.replace(" (OK)","")
-                elif " (Unknown)" in value:
-                    value.replace(" (Unknown)","")
                     
             vehicle_description[label]=value
                 
