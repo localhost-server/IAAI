@@ -59,4 +59,4 @@ while True:
 
         del aggregation_process
 
-    time.sleep(3600)  # Sleep for an hour before checking again
+    # time.sleep(3600)  # Sleep for an hour before checking again
