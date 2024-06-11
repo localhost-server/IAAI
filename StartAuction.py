@@ -149,6 +149,7 @@ async def scrape_auction_data(auction_link, collection, link_collection):
                         print({identity: price}, end=' , ')
                     
                     del content, internal_link, identity, price, high_bid_element, auc
+                    await asyncio.sleep(0.2)
 
 # Parse command line arguments
 parser = argparse.ArgumentParser(description='Scrape auction data.')
