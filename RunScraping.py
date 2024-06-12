@@ -45,9 +45,18 @@ while True:
         print("Time to run the script")
         # if not process:
         process = subprocess.Popen(["python3", "ProductScraping.py"])
+        process1 = subprocess.Popen(["python3", "ProductScraping.py"])
+        process2 = subprocess.Popen(["python3", "ProductScraping.py"])
         process.wait()
+        process1.wait()
+        process2.wait()
         process.terminate()  # Terminate the process
+        process1.terminate()  # Terminate the process
+        process2.terminate()  # Terminate the process
         process.communicate()  # Cleanup the process
+        process1.communicate()  # Cleanup the process
+        process2.communicate()  # Cleanup the process
+
 
         del process
 
