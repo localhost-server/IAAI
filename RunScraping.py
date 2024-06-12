@@ -50,12 +50,12 @@ while True:
         process.wait()
         process1.wait()
         process2.wait()
-        process.terminate()  # Terminate the process
-        process1.terminate()  # Terminate the process
-        process2.terminate()  # Terminate the process
-        process.communicate()  # Cleanup the process
-        process1.communicate()  # Cleanup the process
-        process2.communicate()  # Cleanup the process
+        process.terminate()      
+        process1.terminate()     
+        process2.terminate()     
+        process.communicate()    
+        process1.communicate()   
+        process2.communicate()   
 
 
         del process
