@@ -61,6 +61,8 @@ while True:
 
 
         del process
+        del process1
+        del process2
 
         # Aggregation
         aggregation_process = subprocess.Popen(["python3", "aggregation.py"])
@@ -69,5 +71,7 @@ while True:
         aggregation_process.communicate()
 
         del aggregation_process
+
+        break
 
     # time.sleep(3600)  # Sleep for an hour before checking again
