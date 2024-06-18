@@ -58,6 +58,43 @@ async def scrape_auction_data(auction_link, collection, link_collection):
     data = {}
     while True:
         end_time = datetime.now()
+        # checking if it went 5 hours on auction and close it
+        if (end_time - start_time).total_seconds()/60>300:
+            print(f'Auction Closed {auction_link}')
+            await page.close()
+            await browser.close()
+
+            if not data:
+                return
+
+            data_list = [{"carLink": k, "price": v , "date": datetime.now(cdt).date().strftime("%d-%m-%Y").replace('-','.')} for k, v in data.items() if k != 'None' and v != ""]
+            carLink_list = [i['carLink'] for i in data_list]
+
+            subprocess.Popen(["python3", "check_link.py", ' '.join(carLink_list)])
+            print(f"Data captured of {len(data_list)} cars")
+            print(data_list)
+
+            # Prepare bulk write operations
+            operations = []
+            for data in data_list:
+                price_obj = {"date": data["date"], "price": data["price"]}
+                operations.append(
+                    UpdateOne(
+                        {"carLink": data["carLink"]},
+                        {"$push": {"prices": price_obj}, "$setOnInsert": {"carLink": data["carLink"]}},
+                        upsert=True
+                    )
+                )
+
+            # Execute bulk write operations
+            collection.bulk_write(operations)
+            # collection.insert_many(data_list)
+            
+            
+            link_collection.update_one({'link': auction_link}, {'$set': {'Info': 'done'}})
+
+            return
+            
         await page.wait_for_selector('div.AuctionContainer.event__item')
         multiple_auc_in_single_page = await page.query_selector_all('div.AuctionContainer.event__item')
         # auctioning_completed = await page.query_selector_all("div.event-empty__content")
@@ -150,7 +187,7 @@ async def scrape_auction_data(auction_link, collection, link_collection):
                     
                     del content, internal_link, identity, price, high_bid_element, auc
                     await asyncio.sleep(0.2)
-
+    
 # Parse command line arguments
 parser = argparse.ArgumentParser(description='Scrape auction data.')
 parser.add_argument('CarLink', type=str, help='The auction link to scrape.')
