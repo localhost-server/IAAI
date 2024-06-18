@@ -45,7 +45,9 @@ while True:
         print("Time to run the script")
         # if not process:
         process = subprocess.Popen(["python3", "ProductScraping.py"])
+        await asyncio.sleep(300)
         process1 = subprocess.Popen(["python3", "ProductScraping.py"])
+        await asyncio.sleep(300)
         process2 = subprocess.Popen(["python3", "ProductScraping.py"])
         process.wait()
         process1.wait()
