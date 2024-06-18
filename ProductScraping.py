@@ -123,7 +123,7 @@ async def main():
         for i in vinfo:
             label=await (await i.query_selector('span.data-list__label')).inner_text()
             value=await (await i.query_selector('span.data-list__value')).inner_text()
-            if "******" in value:
+            if "******" in value and "VIN" in label:
                 logged_out=True
                 break
             
@@ -146,7 +146,7 @@ async def main():
             value=await (await i.query_selector('span.data-list__value')).inner_text()
             while '\n' in value or '\t' in value or '  ' in value or " (OK)" in value or " (Unknown)" in value :
                 value=value.replace('\n','').replace('\t','').replace('  ','').replace(" (OK)","").replace(" (Unknown)","")
-                if "******" in value:
+                if "******" in value and "VIN" in label:
                     logged_out=True
                     break
                     
