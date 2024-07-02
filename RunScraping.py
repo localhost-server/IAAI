@@ -2,9 +2,12 @@ import pymongo
 import subprocess
 import time
 import pytz
+import os
+from dotenv import load_dotenv
+load_dotenv()
 
 # Create a new client
-client = pymongo.MongoClient("mongodb+srv://usernone:exvijNFNWZvPNmwq@atlascluster.0cnf1lh.mongodb.net/")
+client = pymongo.MongoClient(os.getenv("MONGOAUTH"))
 
 # Get a reference to the database
 db = client['PortalAuction']
