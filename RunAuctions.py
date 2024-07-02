@@ -5,9 +5,12 @@ import asyncio
 import psutil
 from datetime import datetime
 import pytz
+import os
+from dotenv import load_dotenv
+load_dotenv()
 
 # Create a new client
-client = pymongo.MongoClient("mongodb+srv://usernone:exvijNFNWZvPNmwq@atlascluster.0cnf1lh.mongodb.net/")
+client = pymongo.MongoClient(os.getenv("MONGOAUTH"))
 # Setting CDT timezone
 cdt=pytz.timezone('America/Chicago')
 
