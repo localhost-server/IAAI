@@ -118,7 +118,7 @@ async def main():
         await asyncio.sleep(5)
 
 
-        client = pymongo.MongoClient(os.getenv("MONGOAUTh"))
+        client = pymongo.MongoClient(os.getenv("MONGOAUTH"))
         os.getenv("MONGO_URI")
         db = client['PortalAuction']
         collection = db['AuctionLinks']
