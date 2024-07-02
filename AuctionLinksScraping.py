@@ -2,6 +2,7 @@ import asyncio
 import pymongo
 from undetected_playwright.async_api import async_playwright
 import asyncio
+import os
 from dotenv import load_dotenv
 load_dotenv()
 
