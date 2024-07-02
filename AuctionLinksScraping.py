@@ -2,6 +2,8 @@ import asyncio
 import pymongo
 from undetected_playwright.async_api import async_playwright
 import asyncio
+from dotenv import load_dotenv
+load_dotenv()
 
 async def open_browser(page):
     # await page.set_viewport_size({'width': 1920, 'height': 1080})
@@ -116,7 +118,8 @@ async def main():
         await asyncio.sleep(5)
 
 
-        client = pymongo.MongoClient("mongodb+srv://usernone:exvijNFNWZvPNmwq@atlascluster.0cnf1lh.mongodb.net/")
+        client = pymongo.MongoClient(os.getenv("MONGOAUTh"))
+        os.getenv("MONGO_URI")
         db = client['PortalAuction']
         collection = db['AuctionLinks']
 
