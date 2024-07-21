@@ -35,24 +35,24 @@ while True:
                     print("Initializing processes for the day...")
                     process1 = subprocess.Popen(["python3", "AuctionLinksScraping.py"])
                     time.sleep(300)  # Wait for 5 minutes before initializing the next process
-                    process2 = subprocess.Popen(["python3", "RunAuctions.py"])
+                    # process2 = subprocess.Popen(["python3", "RunAuctions.py"])
                     # time.sleep(300)  # Wait for 5 minutes before initializing the next process
                     # process3 = subprocess.Popen(["python3", "RunScraping.py"])
                     process_initialized = True
                 
                     # Wait for each process to complete
                     process1.wait()
-                    process2.wait()
+                    # process2.wait()
                     # process3.wait()
                     
                     # Terminate the processes to clean up resources
                     process1.terminate()
-                    process2.terminate()
+                    # process2.terminate()
                     # process3.terminate()
                     
                     # Wait for the processes to terminate completely
                     process1.communicate()
-                    process2.communicate()
+                    # process2.communicate()
                     # process3.communicate()
                 
         
@@ -62,9 +62,7 @@ while True:
                 if process1:
                     process1.terminate()
                     process1.communicate()
-                if process2:
-                    process2.terminate()
-                    process2.communicate()
+               
                 # if process3:
                 #     process3.terminate()
                 #     process3.communicate()
