@@ -67,7 +67,7 @@ async def scrape_auction_data(auction_link, collection, link_collection):
             if not data:
                 return
 
-            data_list = [{"carLink": k, "price": v , "date": datetime.now(cdt).date().strftime("%d-%m-%Y").replace('-','.')} for k, v in data.items() if k != 'None' and v != ""]
+            data_list = [{"carLink": k, "price": int(v.replace("$",'').replace(",",'')) , "date": datetime.now(cdt).date().strftime("%d-%m-%Y").replace('-','.')} for k, v in data.items() if ("https://www.iaai.com/" in k) and (v != "")]
             carLink_list = [i['carLink'] for i in data_list]
 
             subprocess.Popen(["python3", "check_link.py", ' '.join(carLink_list)])
