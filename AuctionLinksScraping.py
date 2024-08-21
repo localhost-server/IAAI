@@ -75,8 +75,11 @@ async def fetch_live_auctions(browser , page, collection):
         await asyncio.sleep(30)
 
         auction_section = await page.query_selector('#dvListLiveAuctions')
-        all_auctions = await auction_section.query_selector_all('div.table-row.table-row-border')
-        link_elements = await auction_section.query_selector_all("a.btn.btn-lg.btn-primary.btn-block")
+        try:
+            all_auctions = await auction_section.query_selector_all('div.table-row.table-row-border')
+            link_elements = await auction_section.query_selector_all("a.btn.btn-lg.btn-primary.btn-block")
+        except :
+            continue
         
         if len(link_elements)==0:
             await asyncio.sleep(300)
