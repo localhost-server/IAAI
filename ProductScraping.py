@@ -123,6 +123,24 @@ async def main():
         for i in vinfo:
             label=await (await i.query_selector('span.data-list__label')).inner_text()
             value=await (await i.query_selector('span.data-list__value')).inner_text()
+            if "№ артикула:" in label:
+                label="Stock"
+            elif "Nr zapasów:" in label:
+                label="Stock"
+            elif "Nro. de existencia:" in label:
+                label="Stock"
+            elif "存货编号:" in label:
+                label="Stock"
+            elif "Stock #:" in label:
+                label="Stock"
+                
+            if "VIN (Status):" in label:
+                label=label.replace(" (Status):","")
+                value=value.replace(" (OK)","")
+            elif "VIN:" in label:
+                label=label.replace(":","")
+                value=value.replace(" (OK)","")
+            
             if "******" in value and "VIN" in label:
                 logged_out=True
                 break
@@ -146,6 +164,14 @@ async def main():
             value=await (await i.query_selector('span.data-list__value')).inner_text()
             while '\n' in value or '\t' in value or '  ' in value or " (OK)" in value or " (Unknown)" in value :
                 value=value.replace('\n','').replace('\t','').replace('  ','').replace(" (OK)","").replace(" (Unknown)","")
+
+            if "VIN (Status):" in label:
+                label=label.replace(" (Status):","")
+                value=value.replace(" (OK)","")
+            elif "VIN:" in label:
+                label=label.replace(":","")
+                value=value.replace(" (OK)","")
+            
                 if "******" in value and "VIN" in label:
                     logged_out=True
                     break
