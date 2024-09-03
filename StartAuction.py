@@ -1,5 +1,6 @@
 import argparse
-from undetected_playwright.async_api import async_playwright
+# from undetected_playwright.async_api import async_playwright
+from playwright.async_api import async_playwright
 import subprocess 
 import asyncio
 import pymongo
@@ -23,7 +24,7 @@ async def scrape_auction_data(auction_link, collection, link_collection):
     start_time = datetime.now()
     playwright = await async_playwright().start()
     args = ["--disable-blink-features=AutomationControlled"]
-    browser = await playwright.chromium.launch(args=args, headless=False)
+    browser = await playwright.firefox.launch(args=args, headless=True)
 
     context = await browser.new_context()
     page = await context.new_page()
