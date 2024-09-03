@@ -1,6 +1,6 @@
 import asyncio
 import pymongo
-from playwright.async_api import async_playwright
+from undetected_playwright.async_api import async_playwright
 import asyncio
 import os
 from dotenv import load_dotenv
@@ -113,7 +113,7 @@ async def main():
         args = []
         # disable navigator.webdriver:true flag
         args.append("--disable-blink-features=AutomationControlled")
-        browser = await playwright.firefox.launch(args=args,headless=True)
+        browser = await playwright.chromium.launch(args=args,headless=False)
         context = await browser.new_context()
         page = await context.new_page()
         await open_browser(page)
