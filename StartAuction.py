@@ -24,7 +24,7 @@ async def scrape_auction_data(auction_link, collection, link_collection):
     start_time = datetime.now()
     playwright = await async_playwright().start()
     args = ["--disable-blink-features=AutomationControlled"]
-    browser = await playwright.firefox.launch(args=args, headless=True)
+    browser = await playwright.firefox.launch(args=args, headless=False)
 
     context = await browser.new_context()
     page = await context.new_page()
