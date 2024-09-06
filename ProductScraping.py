@@ -8,18 +8,6 @@ from dotenv import load_dotenv
 import json
 import subprocess
 
-
-
-
-
-
-
-
-
-
-
-
-
 load_dotenv()
 
 async def open_browser(page):
