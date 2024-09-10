@@ -23,7 +23,8 @@ cdt=pytz.timezone('America/Chicago')
 process=None
 
 while True:
-
+    if datetime.now(cdt).strftime("%H:%M")<="16:00":
+        continue
     # Get the current time
     now = datetime.now(cdt)
 
@@ -44,7 +45,7 @@ while True:
     #     process.wait()  # Wait for the process to complete
     #     del process  # Delete the process
     
-    if count and (time_string>="14:00" and (day_of_week in weekdays)):
+    if count and (time_string>="16:00" and (day_of_week in weekdays)):
         print("Time to run the script")
         # if not process:
         process = subprocess.Popen(["python3", "ProductScraping.py"])
