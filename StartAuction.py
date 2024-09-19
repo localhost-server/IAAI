@@ -134,7 +134,6 @@ async def scrape_auction_data(auction_link, collection, link_collection,linkWise
             collection.bulk_write(operations)
             # collection.insert_many(data_list)
             
-            
             link_collection.update_one({'link': auction_link}, {'$set': {'Info': 'done'}})
             linkWiseCol.insert_one({'Date':datetime.now(cdt).strftime("%d.%m.%Y"),"AuctionLink":auction_link,'DataCount':len(data_list)})
 
