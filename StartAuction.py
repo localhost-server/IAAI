@@ -20,7 +20,7 @@ async def open_browser(page, weblink):
     await page.goto(weblink, wait_until='load')
     return page
 
-async def scrape_auction_data(auction_link, collection, link_collection):
+async def scrape_auction_data(auction_link, collection, link_collection,linkWiseCol):
     start_time = datetime.now()
     playwright = await async_playwright().start()
     args = ["--disable-blink-features=AutomationControlled"]
@@ -136,6 +136,7 @@ async def scrape_auction_data(auction_link, collection, link_collection):
             
             
             link_collection.update_one({'link': auction_link}, {'$set': {'Info': 'done'}})
+            linkWiseCol.insert_one({'Date':datetime.now(cdt).strftime("%d.%m.%Y"),"AuctionLink":auction_link,'DataCount':len(data_list)})
 
             return
         else:
@@ -203,6 +204,7 @@ db = client['PortalAuction']
 # Get a reference to the collection
 collection = db['CarsPrice']
 link_collection = db['AuctionLinks']
+linkWiseCol=db['DLCount']
 
 # Usage
-asyncio.run(scrape_auction_data(args.CarLink, collection, link_collection))
+asyncio.run(scrape_auction_data(args.CarLink, collection, link_collection,linkWiseCol))
