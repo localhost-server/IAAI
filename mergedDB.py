@@ -5,7 +5,7 @@ client = MongoClient('mongodb://adminUser:securePassword@45.56.127.88/?authSourc
 db=client['MergedDB']
 col=db['IaaiCopart']
 col.delete_many({})
-time.sleep(120)
+time.sleep(10)
 
 result = client['PortalAuction']['IntegratedData'].aggregate([
     {
