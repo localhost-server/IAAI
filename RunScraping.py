@@ -75,13 +75,6 @@ while True:
         aggregation_process.communicate()
         del aggregation_process
 
-        # DB Merging
-        merging_process = subprocess.Popen(["python3", "mergedDB.py"])
-        merging_process.wait()
-        merging_process.terminate()
-        merging_process.communicate()
-        del merging_process
-
         break
 
     # time.sleep(3600)  # Sleep for an hour before checking again
