@@ -34,6 +34,14 @@ while True:
                 if not process_initialized:
                     print("Initializing processes for the day...")
                     process1 = subprocess.Popen(["python3", "AuctionLinksScraping.py"])
+                    
+                    # DB Merging
+                    merging_process = subprocess.Popen(["python3", "mergedDB.py"])
+                    merging_process.wait()
+                    merging_process.terminate()
+                    merging_process.communicate()
+                    del merging_process
+        
                     time.sleep(300)  # Wait for 5 minutes before initializing the next process
                     # process2 = subprocess.Popen(["python3", "RunAuctions.py"])
                     # time.sleep(300)  # Wait for 5 minutes before initializing the next process
