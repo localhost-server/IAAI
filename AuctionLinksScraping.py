@@ -131,6 +131,10 @@ async def fetch_live_auctions(browser , page, collection):
                 pass
         await asyncio.sleep(2700)
 
+# reading extensionid.txt
+with open("extensionid.txt", "r") as file:
+    extension_id = file.read()
+
 async def main():
     async with async_playwright() as playwright:
 
@@ -145,7 +149,7 @@ async def main():
         page = await context.new_page()
 
         # Enabling the extension for incognito mode
-        await page.goto("chrome://extensions/?id=dkognhhgjbhdpjjlnpiepibhpnbdikba")
+        await page.goto(f"chrome://extensions/?id={extension_id}")
         await asyncio.sleep(3)
         await page.mouse.click(640,640)
         await asyncio.sleep(3)
