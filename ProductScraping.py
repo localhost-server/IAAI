@@ -1,4 +1,4 @@
-from undetected_playwright.async_api import async_playwright
+from playwright.async_api import async_playwright
 import asyncio
 import time
 import pymongo
