@@ -16,24 +16,44 @@ async def open_browser(page):
     await page.goto(weblink, wait_until='load')
     await asyncio.sleep(20)
 
-    if await page.is_visible("text=Log in"):
-        # Find the email input field by its ID
-        email_input = await page.query_selector('#Email')
-        # Enter the desired content
-        email = "matti19913@gmail.com"
-        await email_input.fill(email)
-        password_input = await page.query_selector('#Password')
-        # Clear the existing value (if any)
-        await password_input.fill('')
-        # Enter the desired content
-        password = "Copart2023"
-        await password_input.fill(password)
-        # Clicking on the remember me checkbox
-        await page.click('text=Remember Me')
-        # Clicking on the login button
-        await page.click('button[type="submit"]')
-        # Waiting for the page to load
+    
+    iframe=await page.query_selector('iframe')
+    content=await iframe.content_frame()
+
+    while await content.is_visible('div.captcha'):
         await asyncio.sleep(5)
+        print('Waiting for Captcha to be solved')
+    await asyncio.sleep(10)
+    
+    # Find the email input field by its ID
+    email_input = await page.query_selector('#Email')
+    # Enter the desired content
+    email = "matti19913@gmail.com"
+    await email_input.fill(email)
+    password_input = await page.query_selector('#Password')
+    # Clear the existing value (if any)
+    await password_input.fill('')
+    # Enter the desired content
+    password = "Copart2023"
+    await password_input.fill(password)
+    # Clicking on the remember me checkbox
+    await page.click('text=Remember Me')
+    # Clicking on the login button
+    await page.click('button[type="submit"]')
+    # Waiting for the page to load
+    await asyncio.sleep(5)
+    
+    try:
+        iframe=await page.query_selector('iframe')
+        content=await iframe.content_frame()
+
+        while await content.is_visible('div.captcha'):
+            await asyncio.sleep(5)
+            print('Waiting for Captcha to be solved')
+        
+        await asyncio.sleep(10)
+    except:
+        pass
 
     return page
 
@@ -118,9 +138,16 @@ async def main():
         args.append("--disable-blink-features=AutomationControlled")
         # disable navigator.webdriver:true flag
         args.append("--disable-blink-features=AutomationControlled")
-        browser = await playwright.chromium.launch_persistent_context('./useragent',args=args,headless=False)
-        # context = await browser.new_context()
-        page = await browser.new_page()
+        browser = await playwright.chromium.launch(headless=False,args=args)
+        context = await browser.new_context()
+        page = await context.new_page()
+
+        # Enabling the extension for incognito mode
+        await page.goto("chrome://extensions/?id=dkognhhgjbhdpjjlnpiepibhpnbdikba")
+        await asyncio.sleep(3)
+        await page.mouse.click(640,640)
+        await asyncio.sleep(3)
+
         await open_browser(page)
         await asyncio.sleep(5)
         await navigate_to_auctions(page)
