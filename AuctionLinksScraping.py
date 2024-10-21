@@ -16,14 +16,16 @@ async def open_browser(page):
     await page.goto(weblink, wait_until='load')
     await asyncio.sleep(20)
 
+    try:
+        iframe=await page.query_selector('iframe')
+        content=await iframe.content_frame()
     
-    iframe=await page.query_selector('iframe')
-    content=await iframe.content_frame()
-
-    while await content.is_visible('div.captcha'):
-        await asyncio.sleep(5)
-        print('Waiting for Captcha to be solved')
-    await asyncio.sleep(10)
+        while await content.is_visible('div.captcha'):
+            await asyncio.sleep(5)
+            print('Waiting for Captcha to be solved')
+        await asyncio.sleep(10)
+    except:
+        pass
     
     # Find the email input field by its ID
     email_input = await page.query_selector('#Email')
