@@ -142,8 +142,6 @@ async def main():
             f"--load-extension=./Capsolver",]
         # disable navigator.webdriver:true flag
         args.append("--disable-blink-features=AutomationControlled")
-        # disable navigator.webdriver:true flag
-        args.append("--disable-blink-features=AutomationControlled")
         browser = await playwright.chromium.launch(headless=False,args=args)
         context = await browser.new_context()
         page = await context.new_page()
