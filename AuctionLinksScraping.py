@@ -45,7 +45,7 @@ async def navigate_to_auctions(page):
     await asyncio.sleep(5)
     if await page.is_visible("text=Accept All Cookies"):
         await page.click("text=Accept All Cookies")
-    else:
+    elif await page.is_visible("text=I understand"):
         await page.click("text=I understand")
 
 async def fetch_live_auctions(browser , page, collection):
