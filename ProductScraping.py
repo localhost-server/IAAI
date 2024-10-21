@@ -10,6 +10,10 @@ import subprocess
 
 load_dotenv()
 
+# reading extensionid.txt
+with open("extensionid.txt", "r") as file:
+    extension_id = file.read()
+
 async def open_browser(page):
     await page.emulate_media(color_scheme='dark')
     weblink = "https://www.iaai.com/Login/ExternalLogin?ReturnUrl=%2FDashboard%2FDefault"
@@ -32,7 +36,26 @@ async def main():
     browser = await playwright.chromium.launch(args=args, headless=False)
     context = await browser.new_context()
     page = await context.new_page()
+    
+    # Enabling the extension for incognito mode
+    await page.goto(f"chrome://extensions/?id={extension_id}")
+    await asyncio.sleep(3)
+    await page.mouse.click(640,640)
+    await asyncio.sleep(3)
+
     browse = await open_browser(page=page)
+
+    try:
+        iframe=await page.query_selector('iframe')
+        content=await iframe.content_frame()
+
+        while await content.is_visible('div.captcha'):
+            await asyncio.sleep(5)
+            print('Waiting for Captcha to be solved')
+        
+        await asyncio.sleep(10)
+    except:
+        pass
 
     await asyncio.sleep(5)
 
@@ -48,6 +71,18 @@ async def main():
     await page.click('text=Remember Me')
     await page.click('button[type="submit"]')
     await asyncio.sleep(5)
+    
+    try:
+        iframe=await page.query_selector('iframe')
+        content=await iframe.content_frame()
+
+        while await content.is_visible('div.captcha'):
+            await asyncio.sleep(5)
+            print('Waiting for Captcha to be solved')
+        
+        await asyncio.sleep(10)
+    except:
+        pass
 
     await page.hover('text=Vehicles')
     await page.click('text=Cars')
