@@ -1,6 +1,6 @@
 import argparse
-from undetected_playwright.async_api import async_playwright
-# from playwright.async_api import async_playwright
+# from undetected_playwright.async_api import async_playwright
+from playwright.async_api import async_playwright
 import subprocess 
 import asyncio
 import pymongo
