@@ -26,7 +26,8 @@ async def open_browser(page, weblink):
 async def scrape_auction_data(auction_link, collection, link_collection,linkWiseCol):
     start_time = datetime.now()
     playwright = await async_playwright().start()
-    args = ["--disable-blink-features=AutomationControlled"]
+    args = [f"--disable-extensions-except=./Capsolver",
+    f"--load-extension=./Capsolver","--disable-blink-features=AutomationControlled"]
     browser = await playwright.chromium.launch(args=args, headless=False)
 
     context = await browser.new_context()
