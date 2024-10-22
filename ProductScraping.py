@@ -18,6 +18,7 @@ async def open_browser(page):
     await page.emulate_media(color_scheme='dark')
     weblink = "https://www.iaai.com/Login/ExternalLogin?ReturnUrl=%2FDashboard%2FDefault"
     await page.goto(weblink, wait_until='load')
+    await asyncio.sleep(5)
     return page
 
 async def visit(context,link, newPage):
