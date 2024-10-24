@@ -90,9 +90,9 @@ async def main():
     await page.click('text=Cars')
 
     await asyncio.sleep(3)
-    if await page.is_visible("text=Accept All Cookies"):
+    if await page.is_visible("text=Accept All"):
         await page.click("text=Accept All Cookies")
-    else:
+    elif await page.is_visible("text=I understand"):
         await page.click("text=I understand")
 
     client = pymongo.MongoClient(os.getenv("MONGOAUTH"))
