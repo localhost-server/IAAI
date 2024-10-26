@@ -1,11 +1,10 @@
 pymongo
-playwright==1.40
+playwright
 asyncio
 motor
 boto3
 aiohttp
 python-dotenv
 pytz
-undetected-playwright-patch
 psutil
 argparse
