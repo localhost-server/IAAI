@@ -120,14 +120,13 @@ async def main():
         # doc = collection.find_one_and_update({"Info": "processing"}, {"$set": {"Info": None}}, sort=[("creation_time", ASCENDING)])
 
         if not doc:
-            procdocs = collection.find({"Info": "processing"})
-            if procdocs.count() == 0:
+            if collection.count_documents({"Info":"processing"}) == 0:
                 break
-            for doc in procdocs:
-                carLink = doc['carLink']
-                collection.update_one({"carLink": carLink}, {"$set": {"Info": "None"}})
-            if not doc:
-                break
+            else:
+                procdocs = collection.find({"Info": "processing"})
+                for doc in procdocs:
+                    carLink = doc['carLink']
+                    collection.update_one({"carLink": carLink}, {"$set": {"Info": "None"}})
 
         carLink = doc['carLink']
         link = carLink.replace("https://www.iaai.com", "")
