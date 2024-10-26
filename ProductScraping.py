@@ -7,6 +7,7 @@ import os
 from dotenv import load_dotenv
 import json
 import subprocess
+import random
 
 load_dotenv()
 
@@ -35,15 +36,28 @@ async def main():
     playwright = await async_playwright().start()
     args = [f"--disable-extensions-except=./Capsolver",
     f"--load-extension=./Capsolver","--disable-blink-features=AutomationControlled"]
-    browser = await playwright.chromium.launch(args=args, headless=False)
-    context = await browser.new_context()
-    page = await context.new_page()
+    username = os.getenv("OxylabUser")
+    passwd = os.getenv("OxylabPass")
+    proxy = f'isp.oxylabs.io:800{random.randint(1,21)}'
+    browser = await playwright.chromium.launch_persistent_context('',args=args, headless=False,proxy={
+            "server": proxy,
+            "username": username,
+            "password": passwd
+            })
+
+    # context = await browser.new_context(proxy={
+    #         "server": proxy,
+    #         "username": username,
+    #         "password": passwd
+    #         }) #{"server": "socks5://127.0.0.1:9051"})
+    context = browser
+    page =  await context.new_page()
     
     # Enabling the extension for incognito mode
-    await page.goto(f"chrome://extensions/?id={extension_id}")
-    await asyncio.sleep(3)
-    await page.mouse.click(640,640)
-    await asyncio.sleep(3)
+    # await page.goto(f"chrome://extensions/?id={extension_id}")
+    # await asyncio.sleep(3)
+    # await page.mouse.click(640,640)
+    # await asyncio.sleep(3)
 
     browse = await open_browser(page=page)
 
@@ -55,7 +69,7 @@ async def main():
             await asyncio.sleep(5)
             print('Waiting for Captcha to be solved')
         
-        await asyncio.sleep(10)
+        await asyncio.sleep(5)
     except:
         pass
 
@@ -82,7 +96,7 @@ async def main():
             await asyncio.sleep(5)
             print('Waiting for Captcha to be solved')
         
-        await asyncio.sleep(10)
+        await asyncio.sleep(5)
     except:
         pass
 
@@ -91,7 +105,7 @@ async def main():
 
     await asyncio.sleep(3)
     if await page.is_visible("text=Accept All"):
-        await page.click("text=Accept All Cookies")
+        await page.click("text=Accept All")
     elif await page.is_visible("text=I understand"):
         await page.click("text=I understand")
 
@@ -107,7 +121,12 @@ async def main():
         # doc = collection.find_one_and_update({"Info": "processing"}, {"$set": {"Info": None}}, sort=[("creation_time", ASCENDING)])
 
         if not doc:
-            doc = collection.find_one_and_update({"Info": "processing"}, {"$set": {"Info": "processing"}}, sort=[("creation_time", ASCENDING)])
+            procdocs = collection.find({"Info": "processing"})
+            if procdocs.count() == 0:
+                break
+            for doc in procdocs:
+                carLink = doc['carLink']
+                collection.update_one({"carLink": carLink}, {"$set": {"Info": "None"}})
             if not doc:
                 break
 
