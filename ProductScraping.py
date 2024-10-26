@@ -52,7 +52,6 @@ async def main():
     #         }) #{"server": "socks5://127.0.0.1:9051"})
     context = browser
     page =  await context.new_page()
-    
     # Enabling the extension for incognito mode
     # await page.goto(f"chrome://extensions/?id={extension_id}")
     # await asyncio.sleep(3)
