@@ -38,9 +38,15 @@ async def main():
     f"--load-extension=./Capsolver","--disable-blink-features=AutomationControlled"]
     username = os.getenv("OxylabUser")
     passwd = os.getenv("OxylabPass")
-    proxyserver = f'isp.oxylabs.io:800{random.randint(1,21)}'
+    num=random.randint(1,21)
+    if num<10:
+        proxy = f'isp.oxylabs.io:800{num}'
+    else:
+        proxy = f'isp.oxylabs.io:80{num}'
+    print(proxy)
+
     browser = await playwright.chromium.launch_persistent_context('',args=args, headless=False,proxy={
-            "server": proxyserver,
+            "server": proxy,
             "username": username,
             "password": passwd
             })
