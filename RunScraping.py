@@ -19,20 +19,32 @@ from datetime import datetime
 
 weekdays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
 cdt=pytz.timezone('America/Chicago')
+# Get the current time
+now = datetime.now(cdt)
+
+# Format the time to hours and minutes
+time_string = now.strftime("%H:%M")
+print("Current Time =", time_string)
+
+# Get the day of the week
+day_of_week = now.strftime("%A")
 
 process=None
 
 while True:
-    if datetime.now(cdt).strftime("%H:%M")<="16:00":
-        continue
     # Get the current time
     now = datetime.now(cdt)
 
     # Format the time to hours and minutes
     time_string = now.strftime("%H:%M")
+    print("Current Time =", time_string)
 
     # Get the day of the week
     day_of_week = now.strftime("%A")
+
+    if time_string>="16:00" and time_string<="07:00" and (day_of_week in weekdays):
+        print("Time is less than 16:00")
+        continue
 
     # print("Current Time =", time_string)
     # print("Day of the Week =", day_of_week)
