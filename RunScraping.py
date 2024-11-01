@@ -45,7 +45,7 @@ while True:
     #     process.wait()  # Wait for the process to complete
     #     del process  # Delete the process
     
-    if count and (time_string>="16:00" and (day_of_week in weekdays)):
+    if count and (time_string>="16:00"):# and (day_of_week in weekdays)):
         print("Time to run the script")
         # if not process:
         process = subprocess.Popen(["python3", "ProductScraping.py"])
