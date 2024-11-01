@@ -9,6 +9,7 @@ from dotenv import load_dotenv
 import os
 from datetime import datetime
 import pytz
+import random
 
 load_dotenv()
 # Setting CDT timezone
@@ -28,10 +29,23 @@ async def scrape_auction_data(auction_link, collection, link_collection,linkWise
     playwright = await async_playwright().start()
     args = [f"--disable-extensions-except=./Capsolver",
     f"--load-extension=./Capsolver","--disable-blink-features=AutomationControlled"]
-    browser = await playwright.chromium.launch(args=args, headless=False)
+    username = os.getenv("OxylabUser")
+    passwd = os.getenv("OxylabPass")
+    num=random.randint(1,21)
+    if num<10:
+        proxy = f'isp.oxylabs.io:800{num}'
+    else:
+        proxy = f'isp.oxylabs.io:80{num}'
+    print(proxy)
 
-    context = await browser.new_context()
-    page = await context.new_page()
+    browser = await playwright.chromium.launch_persistent_context('',args=args, headless=False,proxy={
+            "server": proxy,
+            "username": username,
+            "password": passwd
+            })
+
+    # context = await browser.new_context()
+    page = await browser.new_page()
     
     # Enabling the extension for incognito mode
     await page.goto(f"chrome://extensions/?id={extension_id}")
