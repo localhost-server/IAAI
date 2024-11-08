@@ -36,20 +36,27 @@ async def main():
     playwright = await async_playwright().start()
     args = [f"--disable-extensions-except=./Capsolver",
     f"--load-extension=./Capsolver","--disable-blink-features=AutomationControlled"]
-    username = os.getenv("OxylabUser")
-    passwd = os.getenv("OxylabPass")
-    num=random.randint(1,21)
-    if num<10:
-        proxy = f'isp.oxylabs.io:800{num}'
-    else:
-        proxy = f'isp.oxylabs.io:80{num}'
+    # username = os.getenv("OxylabUser")
+    # passwd = os.getenv("OxylabPass")
+    username = os.getenv("BDUser")
+    passwd = os.getenv("BDPass")
+    useProxy= os.getenv("USEPROXY")
+    # num=random.randint(1,21)
+    # if num<10:
+    #     proxy = f'isp.oxylabs.io:800{num}'
+    # else:
+    #     proxy = f'isp.oxylabs.io:80{num}'
+    proxy = f'brd.superproxy.io:22225'
     print(proxy)
 
-    browser = await playwright.chromium.launch_persistent_context('',args=args, headless=False,proxy={
-            "server": proxy,
-            "username": username,
-            "password": passwd
-            })
+    if useProxy == "True":
+        browser = await playwright.chromium.launch_persistent_context('',args=args, headless=False,proxy={
+                "server": proxy,
+                "username": username,
+                "password": passwd
+                })
+    elif useProxy == "False":
+        browser = await playwright.chromium.launch_persistent_context('',args=args, headless=False)
 
     # context = await browser.new_context(proxy={
     #         "server": proxy,
