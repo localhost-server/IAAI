@@ -29,29 +29,39 @@ async def scrape_auction_data(auction_link, collection, link_collection,linkWise
     playwright = await async_playwright().start()
     args = [f"--disable-extensions-except=./Capsolver",
     f"--load-extension=./Capsolver","--disable-blink-features=AutomationControlled"]
-    username = os.getenv("OxylabUser")
-    passwd = os.getenv("OxylabPass")
+    # username = os.getenv("OxylabUser")
+    # passwd = os.getenv("OxylabPass")
+    username = os.getenv("BDUser")
+    passwd = os.getenv("BDPass")
+
     num=random.randint(1,21)
     if num<10:
         proxy = f'isp.oxylabs.io:800{num}'
     else:
         proxy = f'isp.oxylabs.io:80{num}'
+
+    print(proxy)
+    useProxy= os.getenv("USEPROXY")
+    proxy = f'brd.superproxy.io:22225'
     print(proxy)
 
-    browser = await playwright.chromium.launch_persistent_context('',args=args, headless=False,proxy={
-            "server": proxy,
-            "username": username,
-            "password": passwd
-            })
+    if useProxy=="False":
+        browser = await playwright.chromium.launch_persistent_context('',args=args, headless=False)
+    elif useProxy=="True":
+        browser = await playwright.chromium.launch_persistent_context('',args=args, headless=False,proxy={
+                "server": proxy,
+                "username": username,
+                "password": passwd
+                })
 
     # context = await browser.new_context()
     page = await browser.new_page()
     
     # Enabling the extension for incognito mode
-    await page.goto(f"chrome://extensions/?id={extension_id}")
-    await asyncio.sleep(3)
-    await page.mouse.click(640,640)
-    await asyncio.sleep(3)
+    # await page.goto(f"chrome://extensions/?id={extension_id}")
+    # await asyncio.sleep(3)
+    # await page.mouse.click(640,640)
+    # await asyncio.sleep(3)
 
     # browse = await open_browser(page=page, weblink="https://www.iaai.com/Login/ExternalLogin?ReturnUrl=%2FDashboard%2FDefault")
     # await asyncio.sleep(5)
