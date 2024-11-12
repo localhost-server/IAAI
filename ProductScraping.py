@@ -112,8 +112,8 @@ async def main():
     except:
         pass
 
-    await page.hover('text=Vehicles')
-    await page.click('text=Cars')
+    # await page.hover('text=Vehicles')
+    # await page.click('text=Cars')
 
     await asyncio.sleep(3)
     if await page.is_visible("text=Accept All"):
