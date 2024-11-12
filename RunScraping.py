@@ -35,6 +35,7 @@ while True:
 
     if time_string<="16:00" and time_string>="07:00" and (day_of_week in weekdays):
         print("Time is less than 16:00")
+        time.sleep(3600) 
         continue
 
     # print("Current Time =", time_string)
