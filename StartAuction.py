@@ -53,9 +53,10 @@ async def scrape_auction_data(auction_link, collection, link_collection,linkWise
                 "username": username,
                 "password": passwd
                 })
-
+    
     # context = await browser.new_context()
-    page = await browser.new_page()
+    # page = await browser.new_page()
+    page = browser.pages[0]
     
     # Enabling the extension for incognito mode
     # await page.goto(f"chrome://extensions/?id={extension_id}")
