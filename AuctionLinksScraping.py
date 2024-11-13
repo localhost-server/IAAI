@@ -142,15 +142,16 @@ async def main():
             f"--load-extension=./Capsolver",]
         # disable navigator.webdriver:true flag
         args.append("--disable-blink-features=AutomationControlled")
-        browser = await playwright.chromium.launch(headless=False,args=args)
+        browser = await playwright.chromium.launch_persistent_context("",headless=False,args=args)
         context = await browser.new_context()
-        page = await context.new_page()
+        context=browser
+        page = browser.pages[0] #await context.new_page()
 
         # Enabling the extension for incognito mode
-        await page.goto(f"chrome://extensions/?id={extension_id}")
-        await asyncio.sleep(3)
-        await page.mouse.click(640,640)
-        await asyncio.sleep(3)
+        # await page.goto(f"chrome://extensions/?id={extension_id}")
+        # await asyncio.sleep(3)
+        # await page.mouse.click(640,640)
+        # await asyncio.sleep(3)
 
         await open_browser(page)
         await asyncio.sleep(5)
