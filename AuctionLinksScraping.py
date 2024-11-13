@@ -143,7 +143,7 @@ async def main():
         # disable navigator.webdriver:true flag
         args.append("--disable-blink-features=AutomationControlled")
         browser = await playwright.chromium.launch_persistent_context("",headless=False,args=args)
-        context = await browser.new_context()
+        # context = await browser.new_context()
         context=browser
         page = browser.pages[0] #await context.new_page()
 
