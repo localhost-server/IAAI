@@ -85,6 +85,6 @@ while True:
         aggregation_process.communicate()
         del aggregation_process
 
-        break
+        # break
 
     # time.sleep(3600)  # Sleep for an hour before checking again
