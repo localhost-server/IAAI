@@ -119,8 +119,6 @@ async def scrape_auction_data(auction_link, collection, link_collection,linkWise
         # checking if it went 5 hours on auction and close it
         if (end_time - start_time).total_seconds()/60>300:
             print(f'Auction Closed {auction_link}')
-            await page.close()
-            await browser.close()
 
             if not data:
                 return
@@ -148,8 +146,9 @@ async def scrape_auction_data(auction_link, collection, link_collection,linkWise
             collection.bulk_write(operations)
             # collection.insert_many(data_list)
             
-            
             link_collection.update_one({'link': auction_link}, {'$set': {'Info': 'done'}})
+            # await page.close()
+            await browser.close()
 
             return
             
