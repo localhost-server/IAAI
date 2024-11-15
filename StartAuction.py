@@ -144,12 +144,10 @@ async def scrape_auction_data(auction_link, collection, link_collection,linkWise
 
             # Execute bulk write operations
             collection.bulk_write(operations)
-            # collection.insert_many(data_list)
-            
+            # collection.insert_many(data_list)   
             link_collection.update_one({'link': auction_link}, {'$set': {'Info': 'done'}})
             # await page.close()
             await browser.close()
-
             return
             
         await page.wait_for_selector('div.AuctionContainer.event__item')
@@ -159,10 +157,6 @@ async def scrape_auction_data(auction_link, collection, link_collection,linkWise
         # print(f'Number of auctions in the page: {len(multiple_auc_in_single_page)}')
         # print(f'Number of auctions completed: {len(auctioning_completed)}')
         if (len(auctioning_completed)>0) and (len(auctioning_completed) == len(multiple_auc_in_single_page)) and ((end_time - start_time).total_seconds()/60 > 30):
-
-            print(f'Auction Closed {auction_link}')
-            await page.close()
-            await browser.close()
 
             if not data:
                 return
@@ -192,6 +186,10 @@ async def scrape_auction_data(auction_link, collection, link_collection,linkWise
             
             link_collection.update_one({'link': auction_link}, {'$set': {'Info': 'done'}})
             linkWiseCol.insert_one({'Date':datetime.now(cdt).strftime("%d.%m.%Y"),"AuctionLink":auction_link,'DataCount':len(data_list)})
+           
+            print(f'Auction Closed {auction_link}')
+            # await page.close()
+            await browser.close()
 
             return
         else:
