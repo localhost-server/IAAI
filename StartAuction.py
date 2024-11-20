@@ -80,7 +80,7 @@ async def scrape_auction_data(auction_link, collection, link_collection,linkWise
             await asyncio.sleep(5)
             print('Waiting for Captcha to be solved')
 
-            if captchaWaitCount>100:
+            if captchaWaitCount>20:
                 print("----------------------------------------------------Captcha not solved-----------------------------------------")
                 await browser.close()
                 link_collection.update_one({'link': auction_link}, {'$set': {'Info': 'None'}})
@@ -113,7 +113,7 @@ async def scrape_auction_data(auction_link, collection, link_collection,linkWise
             await asyncio.sleep(5)
             print('Waiting for Captcha to be solved')
 
-            if captchaWaitCount>100:
+            if captchaWaitCount>20:
                 print("----------------------------------------------------Captcha not solved-----------------------------------------")
                 await browser.close()
                 link_collection.update_one({'link': auction_link}, {'$set': {'Info': 'None'}})
