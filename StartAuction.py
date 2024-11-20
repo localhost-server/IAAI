@@ -70,13 +70,22 @@ async def scrape_auction_data(auction_link, collection, link_collection,linkWise
     await page.goto("https://www.iaai.com/Login/ExternalLogin?ReturnUrl=%2FDashboard%2FDefault", wait_until='load')
     await asyncio.sleep(20)
     
+    captchaWaitCount=0
     try:
         iframe=await page.query_selector('iframe')
         content=await iframe.content_frame()
     
         while await content.is_visible('div.captcha'):
+            captchaWaitCount+=1
             await asyncio.sleep(5)
             print('Waiting for Captcha to be solved')
+
+            if captchaWaitCount>100:
+                print("----------------------------------------------------Captcha not solved-----------------------------------------")
+                await browser.close()
+                link_collection.update_one({'link': auction_link}, {'$set': {'Info': 'None'}})
+                return
+            
         await asyncio.sleep(10)
     except:
         pass
@@ -94,13 +103,23 @@ async def scrape_auction_data(auction_link, collection, link_collection,linkWise
     except:
         print("Bot detected")
 
+    captchaWaitCount=0
     try:
         iframe=await page.query_selector('iframe')
         content=await iframe.content_frame()
     
         while await content.is_visible('div.captcha'):
+            captchaWaitCount+=1
             await asyncio.sleep(5)
             print('Waiting for Captcha to be solved')
+
+            if captchaWaitCount>100:
+                print("----------------------------------------------------Captcha not solved-----------------------------------------")
+                await browser.close()
+                link_collection.update_one({'link': auction_link}, {'$set': {'Info': 'None'}})
+                return
+
+
         await asyncio.sleep(10)
     except:
         pass
