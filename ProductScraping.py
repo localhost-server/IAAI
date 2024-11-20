@@ -64,7 +64,7 @@ async def main():
     #         "password": passwd
     #         }) #{"server": "socks5://127.0.0.1:9051"})
     context = browser
-    page = browser.pages[0] #await context.new_page()
+    page =  await context.new_page()
     # Enabling the extension for incognito mode
     # await page.goto(f"chrome://extensions/?id={extension_id}")
     # await asyncio.sleep(3)
@@ -73,14 +73,21 @@ async def main():
 
     browse = await open_browser(page=page)
 
+    captchaWaitCount=0
     try:
         iframe=await page.query_selector('iframe')
         content=await iframe.content_frame()
 
         while await content.is_visible('div.captcha'):
+            captchaWaitCount+=1
             await asyncio.sleep(5)
             print('Waiting for Captcha to be solved')
-        
+
+            if captchaWaitCount>100:
+                print("Captcha not solved")
+                await browser.close()
+                return
+
         await asyncio.sleep(5)
     except:
         pass
@@ -100,13 +107,20 @@ async def main():
     await page.click('button[type="submit"]')
     await asyncio.sleep(5)
     
+    captchaWaitCount=0
     try:
         iframe=await page.query_selector('iframe')
         content=await iframe.content_frame()
 
         while await content.is_visible('div.captcha'):
+            captchaWaitCount+=1
             await asyncio.sleep(5)
             print('Waiting for Captcha to be solved')
+
+            if captchaWaitCount>100:
+                print("Captcha not solved")
+                await browser.close()
+                return
         
         await asyncio.sleep(5)
     except:
