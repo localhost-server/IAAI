@@ -55,7 +55,7 @@ while True:
     #     process.wait()  # Wait for the process to complete
     #     del process  # Delete the process
     
-    elif collection.count_documents({"Info": "None"}) or collection.count_documents({"Info":"processing"}) or collection.count_documents({"Info.Name":{"$exists":False}}) or collection.count_documents({"Info.Vehicle Info.VIN":{"$exists":False}}) :#and (time_string>="16:00"):# and (day_of_week in weekdays)):
+    elif collection.count_documents({"Info": "None"}) or collection.count_documents({"Info":"processing"}) or collection.count_documents({"Info.Name":{"$exists":False}}) or collection.count_documents({"Info.Vehicle Info.VIN (Status):":{"$exists":False},"Info.Vehicle Info.VIN:":{"$exists":False},"Info.Vehicle Info.VIN":{"$exists":False}}) :#and (time_string>="16:00"):# and (day_of_week in weekdays)):
         print("Time to run the script")
         # if not process:
         process = subprocess.Popen(["python3", "ProductScraping.py"])
